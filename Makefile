@@ -26,7 +26,7 @@ all:		$(LIBFT) $(SERVER) $(CLIENT)
 bonus:		$(LIBFT) $(SERVER_BONUS) $(CLIENT_BONUS)
 
 $(LIBFT):
-			@make -C libft bonus
+			@make -C libft
 
 $(SERVER):			$(SERVER_SRC)
 					$(CC) $(CFLAGS) $(SERVER_SRC) $(LIBFT_SRC)$(LIBFT) -o $(SERVER)

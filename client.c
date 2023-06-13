@@ -6,13 +6,13 @@
 /*   By: jingchen <jingchen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 12:31:53 by jingchen          #+#    #+#             */
-/*   Updated: 2023/06/13 16:54:13 by jingchen         ###   ########.fr       */
+/*   Updated: 2023/06/13 20:13:53 by jingchen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
 
-void	send_char(int pid, int c)
+static void	send_char(int pid, int c)
 {
 	int	i;
 
@@ -28,21 +28,25 @@ void	send_char(int pid, int c)
 	}
 }
 
-void	send_string(int pid, char *str)
+/*static void	send_string(int pid, char *str)
 {
 	while (*str)
 	{
 		send_char(pid, *str);
 		str++;
 	}
-}
+}*/
 
 int	main(int argc, char **argv)
 {
+	char	*str;
+
+	str = argv[2];
 	if (argc != 3)
 	{
 		return (-1);
 	}
-	send_string(ft_atoi(argv[1]), argv[2]);
+	while (*str)
+		send_char(ft_atoi(argv[1]), *str++);
 	return (0);
 }
