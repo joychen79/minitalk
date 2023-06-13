@@ -6,7 +6,7 @@
 /*   By: jingchen <jingchen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 12:31:53 by jingchen          #+#    #+#             */
-/*   Updated: 2023/06/13 20:32:42 by jingchen         ###   ########.fr       */
+/*   Updated: 2023/06/13 20:36:44 by jingchen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,15 +37,6 @@ static void	send_char(int pid, int c)
 	}
 	usleep(500);
 }
-
-/*void	send_string(int pid, char *str)
-{
-	while (*str)
-	{
-		send_char(pid, *str);
-		str++;
-	}
-}*/
 
 int	main(int argc, char **argv)
 {
