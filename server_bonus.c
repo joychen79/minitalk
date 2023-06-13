@@ -1,41 +1,57 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   server.c                                           :+:      :+:    :+:   */
+/*   server_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jingchen <jingchen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 14:27:16 by jingchen          #+#    #+#             */
-/*   Updated: 2023/06/13 18:54:54 by jingchen         ###   ########.fr       */
+/*   Updated: 2023/06/13 18:54:29 by jingchen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
 
-static void	sig_handler(int signum)
+static void	sig_handler(int signum, siginfo_t *newaction, void *oldaction)
 {
 	static int	c = 0;
 	static int	bit = 0;
 
+	(void)oldaction;
 	if (signum == SIGUSR1)
 		c |= (1 << bit);
-		bit++;
+	bit++;
 	if (bit == 8)
 	{
-		ft_putchar_fd(c, 1);
-		c = 0;
-		bit = 0;
+		if (c == '\0')
+		{
+			kill ((newaction->si_pid), SIGUSR2);
+			ft_putchar_fd('\n', 1);
+		}
+		else
+		{
+			kill ((newaction->si_pid), SIGUSR1);
+			ft_putchar_fd(c, 1);
+			c = 0;
+			bit = 0;
+		}
 	}
 }
 
 int	main(void)
 {
-	pid_t	pid;
+	pid_t				pid;
+	struct sigaction	act1;
+	struct sigaction	act2;
 
 	pid = getpid();
 	ft_printf("current server is %d\n", pid);
-	signal(SIGUSR1, sig_handler);
-	signal(SIGUSR2, sig_handler);
+	act1.sa_flags = SIGINFO;
+	act1.sa_sigaction = sig_handler;
+	sigaction(SIGUSR1, &act1, NULL);
+	act2.sa_flags = SIGINFO;
+	act2.sa_sigaction = sig_handler;
+	sigaction(SIGUSR2, &act2, NULL);
 	while (1)
 	{
 		pause();
